@@ -1,14 +1,14 @@
 import express from 'express';
 import morgan from 'morgan';
 import mongoose from 'mongoose';
+import 'dotenv/config';
 
 const app = express();
 
 //middleware
 app.use(morgan('dev'));
 
-const dbUrl =
-  'mongodb+srv://mountain_kidz:mountain_kidz@cluster0.p6jj9.mongodb.net/?retryWrites=true&w=majority';
+const dbUrl = process.env.DB_CONNECTION;
 const dbOptions = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
