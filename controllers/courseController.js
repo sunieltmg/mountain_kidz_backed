@@ -63,7 +63,7 @@ export const updateCourse = async (req, res) => {
   }
 };
 
-// controller to delete all course
+// controller to delete all of the course
 export const deleteCourse = async (req, res) => {
   try {
     await courseModel.remove();
