@@ -6,4 +6,5 @@ const courseSchema = new mongoose.Schema({
   image: { type: String, required: true },
 });
 
-export const Course = mongoose.model('Course', courseSchema);
+const courseModel = mongoose.model('Course', courseSchema);
+export default courseModel;
