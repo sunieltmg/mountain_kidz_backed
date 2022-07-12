@@ -2,7 +2,7 @@ import express from 'express';
 import morgan from 'morgan';
 import mongoose from 'mongoose';
 import 'dotenv/config';
-import { default as courseRoutes } from './routes/api/course.js';
+import { default as courseRoutes } from './routes/api/courseRoute.js';
 import bodyParser from 'body-parser';
 import connectDB from './config/dbConn.js';
 
