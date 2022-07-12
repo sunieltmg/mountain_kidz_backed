@@ -5,16 +5,16 @@ import {
   updateCourse,
   deleteCourse,
   getSingleCourse,
+  deleteSingleCourse,
 } from '../../controllers/courseController.js';
 const router = Router();
 
-router
-  .route('/')
-  .get(getAllCourses)
-  .post(createNewCourse)
-  .put(updateCourse)
-  .delete(deleteCourse);
+router.route('/').get(getAllCourses).post(createNewCourse).delete(deleteCourse);
 
-router.route('/:id').get(getSingleCourse);
+router
+  .route('/:id')
+  .get(getSingleCourse)
+  .put(updateCourse)
+  .delete(deleteSingleCourse);
 
 export default router;
