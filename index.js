@@ -2,28 +2,27 @@ import express from 'express';
 import morgan from 'morgan';
 import mongoose from 'mongoose';
 import 'dotenv/config';
+import { default as courseRoutes } from './routes/course_routes.js';
+import bodyParser from 'body-parser';
+import connectDB from './config/dbConn.js';
 
 const app = express();
 
 //middleware
 app.use(morgan('dev'));
+app.use(bodyParser.json());
 
-const dbUrl = process.env.DB_CONNECTION;
-const dbOptions = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-};
-
-mongoose.connect(dbUrl, dbOptions, () => {
-  console.log('connected to db');
-});
+// connect to DB
+connectDB();
 
 // routes
-app.get('/', (req, res) => {
-  res.send('Welcome to the home page');
-});
+app.use('/course', courseRoutes);
 
-// listen to server
-app.listen(3000, () => {
-  console.log('We are listening to your requests at port:3000');
+// connect to server only after DB connection
+mongoose.connection.once('open', () => {
+  console.log('Connected to DB');
+  // listen to server
+  app.listen(3000, () => {
+    console.log('We are listening to your requests at port:3000');
+  });
 });
