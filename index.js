@@ -5,6 +5,7 @@ import 'dotenv/config';
 import cors from 'cors';
 import { default as courseRoutes } from './routes/api/courseRoute.js';
 import { default as registerRoutes } from './routes/registerRoute.js';
+import { default as authRoutes } from './routes/authRoute.js';
 import bodyParser from 'body-parser';
 import connectDB from './config/dbConn.js';
 
@@ -21,6 +22,7 @@ connectDB();
 // routes
 app.use('/course', courseRoutes);
 app.use('/register', registerRoutes);
+app.use('/auth', authRoutes);
 
 // connect to server only after DB connection
 mongoose.connection.once('open', () => {
