@@ -1,5 +1,7 @@
 import userModel from '../models/User.js';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import 'dotenv/config';
 
 const handleLogin = async (req, res) => {
   // check if all fields are field
@@ -19,8 +21,28 @@ const handleLogin = async (req, res) => {
     matchUser.password
   );
   if (matchPassword) {
-    //create JWT token
-    return res.status(200).json({ message: 'user logged in successfully' });
+    //Access Token
+    const accessToken = jwt.sign(
+      { username: matchUser.username },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: '30s' }
+    );
+    //Refresh
+    const refreshToken = jwt.sign(
+      { username: matchUser.username },
+      process.env.REFRESH_TOKEN_SECRET,
+      {
+        expiresIn: '1d',
+      }
+    );
+    //save refresh token in httpOnly cookies
+    //save refresh token in database
+    matchUser.refreshToken = refreshToken;
+    await matchUser.save();
+
+    return res
+      .status(200)
+      .json({ message: 'user logged in successfully', accessToken: accessToken });
   } else {
     return res.status(401).json({ message: 'invalid credientials' });
   }
