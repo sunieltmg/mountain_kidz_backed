@@ -8,8 +8,12 @@ import {
   deleteSingleCourse,
 } from '../../controllers/courseController.js';
 const router = Router();
-
-router.route('/').get(getAllCourses).post(createNewCourse).delete(deleteCourse);
+import verifyJWT from '../../middleware/verifyJWT.js';
+router
+  .route('/')
+  .get(verifyJWT, getAllCourses)
+  .post(createNewCourse)
+  .delete(deleteCourse);
 
 router
   .route('/:id')

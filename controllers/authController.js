@@ -25,7 +25,7 @@ const handleLogin = async (req, res) => {
     const accessToken = jwt.sign(
       { username: matchUser.username },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: '30s' }
+      { expiresIn: '50s' }
     );
     //Refresh
     const refreshToken = jwt.sign(
@@ -36,13 +36,18 @@ const handleLogin = async (req, res) => {
       }
     );
     //save refresh token in httpOnly cookies
+    res.cookie('jwt', refreshToken, {
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000,
+    });
     //save refresh token in database
     matchUser.refreshToken = refreshToken;
     await matchUser.save();
 
-    return res
-      .status(200)
-      .json({ message: 'user logged in successfully', accessToken: accessToken });
+    return res.status(200).json({
+      message: 'user logged in successfully',
+      accessToken: accessToken,
+    });
   } else {
     return res.status(401).json({ message: 'invalid credientials' });
   }
