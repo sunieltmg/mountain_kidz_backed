@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import 'dotenv/cofig';
+import 'dotenv/config';
 import userModel from '../models/User.js';
 
 const handleRefreshToken = async (req, res) => {
@@ -10,7 +10,7 @@ const handleRefreshToken = async (req, res) => {
   }
   const refreshToken = cookies.jwt;
   // match refreshToken in database
-  const matchUser = userModel.findOne({ refreshToken: refreshToken });
+  const matchUser = await userModel.findOne({ refreshToken: refreshToken });
   if (!matchUser) {
     return res.status(403).json({ message: 'forbidden' });
   }
@@ -20,8 +20,8 @@ const handleRefreshToken = async (req, res) => {
     refreshToken,
     process.env.REFRESH_TOKEN_SECRET,
     (err, decoded) => {
-      if (err || matchUser.username != decoded.username) {
-        return res.status(403).json({ message: 'forbidden' });
+      if (err || matchUser.username !== decoded.username) {
+        return res.status(403).json({ message: 'forbidden d' });
       }
       // create new accessToken
       const accessToken = jwt.sign(
@@ -30,7 +30,7 @@ const handleRefreshToken = async (req, res) => {
         { expiresIn: '50s' }
       );
 
-      return res.status(200).json({ accessToken: accessToken});
+      return res.status(200).json({ accessToken: accessToken });
     }
   );
 };
