@@ -9,11 +9,12 @@ import { default as courseRoutes } from './routes/api/courseRoute.js';
 import { default as registerRoutes } from './routes/registerRoute.js';
 import { default as authRoutes } from './routes/authRoute.js';
 import connectDB from './config/dbConn.js';
+import verifyJWT from './middleware/verifyJWT.js';
 
 const app = express();
 
 //middleware
-// app.use(cookieParser);
+app.use(cookieParser());
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(cors());
@@ -22,9 +23,10 @@ app.use(cors());
 connectDB();
 
 // routes
-app.use('/course', courseRoutes);
 app.use('/register', registerRoutes);
 app.use('/auth', authRoutes);
+app.use(verifyJWT);
+app.use('/course', courseRoutes);
 
 // connect to server only after DB connection
 mongoose.connection.once('open', () => {
