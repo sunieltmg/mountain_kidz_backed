@@ -9,6 +9,7 @@ import { default as courseRoutes } from './routes/api/courseRoute.js';
 import { default as registerRoutes } from './routes/registerRoute.js';
 import { default as authRoutes } from './routes/authRoute.js';
 import { default as refreshRoutes } from './routes/refreshRoute.js';
+import { default as logOutRoutes } from './routes/logOutRoute.js';
 import connectDB from './config/dbConn.js';
 import verifyJWT from './middleware/verifyJWT.js';
 
@@ -27,6 +28,7 @@ connectDB();
 app.use('/register', registerRoutes);
 app.use('/auth', authRoutes);
 app.use('/refresh', refreshRoutes);
+app.use('/logOut', logOutRoutes);
 app.use(verifyJWT);
 app.use('/course', courseRoutes);
 

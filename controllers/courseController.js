@@ -4,8 +4,21 @@ import courseModel from '../models/Course.js';
 // controller to get all course
 export const getAllCourses = async (req, res) => {
   try {
-    const allCourse = await courseModel.find().limit(10);
-    return res.status(200).json(allCourse);
+    const { page, size } = req.query;
+    // checking the page passed or not
+    if (!page) {
+      page = 1;
+    }
+    // checking the size passed or not
+
+    if (!size) {
+      size = 10;
+    }
+
+    const limit = parseInt(size);
+    const skip = parseInt(page - 1) * size;
+    const allCourse = await courseModel.find().limit(limit).skip(skip);
+    return res.status(200).json({ page: page, size: size, data: allCourse });
   } catch (err) {
     return res.status(400).json({ message: err });
   }
