@@ -28,7 +28,7 @@ connectDB();
 app.use('/register', registerRoutes);
 app.use('/auth', authRoutes);
 app.use('/refresh', refreshRoutes);
-app.use('/logOut', logOutRoutes);
+app.use('/logout', logOutRoutes);
 app.use(verifyJWT);
 app.use('/course', courseRoutes);
 
