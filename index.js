@@ -14,6 +14,8 @@ import { default as refreshRoutes } from './routes/refreshRoute.js';
 import { default as logOutRoutes } from './routes/logOutRoute.js';
 import connectDB from './config/dbConn.js';
 import verifyJWT from './middleware/verifyJWT.js';
+import redis from 'redis';
+import util from 'util';
 
 const swaggerOptions = {
   definition: {
@@ -40,6 +42,18 @@ const swaggerOptions = {
 const swaggerJSSpec = swaggerJsdoc(swaggerOptions);
 
 const app = express();
+
+// redis config
+
+export const client = redis.createClient({
+  host: '127.0.0.1',
+  port: 6379,
+  legacyMode: true,
+});
+await client.connect();
+
+export const getAsync = util.promisify(client.get).bind(client);
+export const setAsync = util.promisify(client.setEx).bind(client);
 
 //middleware
 app.use('/apiDocs', swaggerUi.serve, swaggerUi.setup(swaggerJSSpec));
