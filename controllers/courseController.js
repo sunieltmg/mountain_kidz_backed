@@ -1,7 +1,7 @@
 import express from 'express';
 import courseModel from '../models/Course.js';
-import { client, getAsync, setAsync } from '../index.js';
-import redis from 'redis';
+// import { client, getAsync, setAsync } from '../index.js';
+// import redis from 'redis';
 // controller to get all course
 export const getAllCourses = async (req, res) => {
   try {
@@ -19,11 +19,11 @@ export const getAllCourses = async (req, res) => {
     const limit = parseInt(size);
     const skip = parseInt(page - 1) * size;
     const allCourse = await courseModel.find().limit(limit).skip(skip);
-    const savedResult = await setAsync(
-      'allCourse',
-      3600,
-      JSON.stringify(allCourse)
-    );
+    // const savedResult = await setAsync(
+    //   'allCourse',
+    //   3600,
+    //   JSON.stringify(allCourse)
+    // );
     res.send({ page: page, size: size, data: allCourse });
   } catch (err) {
     return res.status(400).json({ message: err });
