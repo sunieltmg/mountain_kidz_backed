@@ -8,7 +8,7 @@ import {
   deleteSingleCourse,
 } from '../../controllers/courseController.js';
 
-import cacheAllCourse from '../../middleware/redisCache.js';
+// import cacheAllCourse from '../../middleware/redisCache.js';
 const router = Router();
 
 // creating swagger models
@@ -44,7 +44,8 @@ const router = Router();
 
 router
   .route('/')
-  .get(cacheAllCourse, getAllCourses)
+  // .get(cacheAllCourse, getAllCourses)
+  .get(getAllCourses)
   .post(createNewCourse)
   .delete(deleteCourse);
 
