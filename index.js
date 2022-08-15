@@ -72,8 +72,8 @@ app.use('/auth', authRoutes);
 app.use('/refresh', refreshRoutes);
 app.use('/logout', logOutRoutes);
 app.use('/user', userRoutes);
-app.use(verifyJWT);
 app.use('/course', courseRoutes);
+app.use(verifyJWT);
 
 // connect to server only after DB connection
 mongoose.connection.once('open', () => {
